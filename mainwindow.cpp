@@ -2,7 +2,6 @@
 #include "ui_mainwindow.h"
 
 #include <QApplication>
-#include <QBuffer>
 #include <QScreen>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -72,11 +71,8 @@ void MainWindow::on_screenButton_clicked()
     inBuffer.open( QIODevice::WriteOnly );
     inPixmap.save( &inBuffer, "PNG" );
 
-    QCryptographicHash hash(QCryptographicHash::Md5);
-    QString sHash = hash.result().toHex().data();
-
     db->insertIntoTable(QDateTime::currentDateTime().toString("dd.MM.yyyy_hh:mm:ss.png"), inByteArray,
-                       sHash);
+                       calcMD5(inByteArray));
 
 
     model->select();
@@ -89,4 +85,23 @@ void MainWindow::slotCurrentPic(QModelIndex index)
     outPixmap.loadFromData(model->data(model->index(index.row(), 2)).toByteArray());
 
     ui->picLabel->setPixmap(outPixmap.scaled(600,300));
+}
+
+
+QString MainWindow::calcMD5(QByteArray inByteArray)
+{
+    QString result;
+    QByteArray data;
+    QCryptographicHash cryp(QCryptographicHash::Md5);
+
+    QBuffer file( &inByteArray );
+
+    if (file.open(QIODevice::ReadOnly) )
+    {
+        data = file.readAll();
+        cryp.addData(data);
+        result = cryp.result().toHex().data();
+        file.close();
+    }
+    return result;
 }

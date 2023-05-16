@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QSqlTableModel>
 #include <QModelIndex>
+#include <QBuffer>
 
 #include "database.h"
 
@@ -25,6 +26,8 @@ private slots:
 
     void slotCurrentPic(QModelIndex index);
 
+    QString calcMD5(const QByteArray inByteArray);
+
 private:
     Ui::MainWindow *ui;
 
@@ -35,6 +38,7 @@ private:
 
     void setupModel(const QString &tableName, const QStringList &headers);
     void createUI();
+
 };
 
 #endif // MAINWINDOW_H

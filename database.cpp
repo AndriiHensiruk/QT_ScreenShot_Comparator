@@ -10,13 +10,10 @@ DataBase::~DataBase()
 
 }
 
-/* Методы для подключения к базе данных
-     * */
+
 void DataBase::connectToDataBase()
 {
-    /* Перед подключением к базе данных производим проверку на её существование.
-         * В зависимости от результата производим открытие базы данных или её восстановление
-         * */
+
     if(!QFile("C:/Qt/project/ScreenShotProject/database" DATABASE_NAME).exists()){
         this->restoreDataBase();
     } else {
@@ -24,13 +21,12 @@ void DataBase::connectToDataBase()
     }
 }
 
-/* Методы восстановления базы данных
-     * */
+
 bool DataBase::restoreDataBase()
 {
-    // Если база данных открылась ...
+
     if(this->openDataBase()){
-        // Производим восстановление базы данных
+
         return (this->createTable()) ? true : false;
     } else {
         qDebug() << "Не удалось восстановить базу данных";
@@ -39,13 +35,10 @@ bool DataBase::restoreDataBase()
     return false;
 }
 
-/* Метод для открытия базы данных
-     * */
+
 bool DataBase::openDataBase()
 {
-    /* База данных открывается по заданному пути
-         * и имени базы данных, если она существует
-         * */
+
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setHostName(DATABASE_HOSTNAME);
     db.setDatabaseName("C:/Qt/project/ScreenShotProject/database" DATABASE_NAME);
@@ -56,20 +49,16 @@ bool DataBase::openDataBase()
     }
 }
 
-/* Методы закрытия базы данных
-     * */
+
 void DataBase::closeDataBase()
 {
     db.close();
 }
 
-/* Метод для создания таблицы в базе данных
-     * */
+
 bool DataBase::createTable()
 {
-    /* В данном случае используется формирование сырого SQL-запроса
-         * с последующим его выполнением.
-         * */
+
     QSqlQuery query;
     if(!query.exec( "CREATE TABLE " TABLE " ("
                     "id INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -86,25 +75,19 @@ bool DataBase::createTable()
     return false;
 }
 
-/* Метод для вставки записи в базу данных
-     * */
+
 bool DataBase::insertIntoTable(const QVariantList &data)
 {
-    /* Запрос SQL формируется из QVariantList,
-         * в который передаются данные для вставки в таблицу.
-         * */
+
     QSqlQuery query;
-    /* В начале SQL запрос формируется с ключами,
-         * которые потом связываются методом bindValue
-         * для подстановки данных из QVariantList
-         * */
+
     query.prepare("INSERT INTO " TABLE " ( " TABLE_NAME ", "
                   TABLE_PIC " ) "
                   "VALUES (:Name, :Pic)");
     query.bindValue(":Name",        data[0].toString());
     query.bindValue(":Pic",         data[1].toByteArray());
 
-    // После чего выполняется запросом методом exec()
+
     if(!query.exec()){
         qDebug() << "error insert into " << TABLE;
         qDebug() << query.lastError().text();
@@ -115,8 +98,7 @@ bool DataBase::insertIntoTable(const QVariantList &data)
     return false;
 }
 
-/* Второй метод для вставки записи в базу данных
-     * */
+
 bool DataBase::insertIntoTable(const QString &name, const QByteArray &pic)
 {
     QVariantList data;

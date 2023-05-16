@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
                      QStringList() << trUtf8("id")
                                    << trUtf8("Name image")
                                    << trUtf8("Image")
+                                   << trUtf8("HAS")
                      );
 
     this->createUI();
@@ -71,7 +72,11 @@ void MainWindow::on_screenButton_clicked()
     inBuffer.open( QIODevice::WriteOnly );
     inPixmap.save( &inBuffer, "PNG" );
 
-    db->insertIntoTable(QDateTime::currentDateTime().toString("dd.MM.yyyy_hh:mm:ss.png"), inByteArray);
+    QCryptographicHash hash(QCryptographicHash::Md5);
+    QString sHash = hash.result().toHex().data();
+
+    db->insertIntoTable(QDateTime::currentDateTime().toString("dd.MM.yyyy_hh:mm:ss.png"), inByteArray,
+                       sHash);
 
 
     model->select();

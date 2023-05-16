@@ -63,7 +63,8 @@ bool DataBase::createTable()
     if(!query.exec( "CREATE TABLE " TABLE " ("
                     "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     TABLE_NAME     " VARCHAR(255)    NOT NULL,"
-                    TABLE_PIC      " BLOB            NOT NULL"
+                    TABLE_PIC      " BLOB            NOT NULL,"
+                    TABLE_HAS      " VARCHAR(255)    NOT NULL"
                     " )"
                     )){
         qDebug() << "DataBase: error of create " << TABLE;
@@ -82,10 +83,11 @@ bool DataBase::insertIntoTable(const QVariantList &data)
     QSqlQuery query;
 
     query.prepare("INSERT INTO " TABLE " ( " TABLE_NAME ", "
-                  TABLE_PIC " ) "
-                  "VALUES (:Name, :Pic)");
-    query.bindValue(":Name",        data[0].toString());
-    query.bindValue(":Pic",         data[1].toByteArray());
+                  TABLE_PIC ", " TABLE_HAS " ) "
+                  "VALUES (:Name, :Pic, :HashValue)");
+    query.bindValue(":Name",              data[0].toString());
+    query.bindValue(":Pic",               data[1].toByteArray());
+    query.bindValue(":HashValue",         data[2].toString());
 
 
     if(!query.exec()){
@@ -99,11 +101,13 @@ bool DataBase::insertIntoTable(const QVariantList &data)
 }
 
 
-bool DataBase::insertIntoTable(const QString &name, const QByteArray &pic)
+bool DataBase::insertIntoTable(const QString &name, const QByteArray &pic, const QString &has)
 {
     QVariantList data;
     data.append(name);
     data.append(pic);
+    data.append(has);
+
 
     if(insertIntoTable(data))
         return true;

@@ -9,6 +9,7 @@
 #include <QFile>
 #include <QDate>
 #include <QDebug>
+#include <QSqlDriver>
 #include <QCryptographicHash>
 
 #define DATABASE_HOSTNAME   "ScreenDataBase"

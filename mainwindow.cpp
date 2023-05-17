@@ -74,7 +74,7 @@ void MainWindow::on_screenButton_clicked()
     db->insertIntoTable(QDateTime::currentDateTime().toString("dd.MM.yyyy_hh:mm:ss.png"), inByteArray,
                        calcMD5(inByteArray));
 
-
+        simile_ScreenShot(calcMD5(inByteArray), calcMD5(inByteArray));
     model->select();
 }
 
@@ -104,4 +104,25 @@ QString MainWindow::calcMD5(QByteArray inByteArray)
         file.close();
     }
     return result;
+}
+
+
+int MainWindow::simile_ScreenShot(QString tableHAS1, QString tableHAS2)
+{
+   int dist_counter = 0;
+
+    if (tableHAS1.length() != tableHAS2.length())
+    {
+        qDebug() << "Не удалось восстановить данных";
+   }
+
+    for (int i = 0; i < tableHAS1.length(); i++ )
+    {
+       if (tableHAS1.at(i) != tableHAS2.at(i))
+        {
+            dist_counter += 1;
+       }
+   }
+   qDebug() << dist_counter;
+    return dist_counter;
 }

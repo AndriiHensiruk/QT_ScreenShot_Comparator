@@ -3,7 +3,7 @@
 
 #include <QApplication>
 #include <QScreen>
- #include <QList>
+#include <QList>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
                      QStringList() << trUtf8("id")
                                    << trUtf8("Name image")
                                    << trUtf8("Image")
+                                   << trUtf8("Simile")
                                    << trUtf8("HAS")
                      );
 
@@ -72,11 +73,13 @@ void MainWindow::on_screenButton_clicked()
     inBuffer.open( QIODevice::WriteOnly );
     inPixmap.save( &inBuffer, "PNG" );
 
+    int simile = simile_ScreenShot(getHAS(), calcMD5(inByteArray));
+
     db->insertIntoTable(QDateTime::currentDateTime().toString("dd.MM.yyyy_hh:mm:ss.png"), inByteArray,
-                       calcMD5(inByteArray));
+                       simile, calcMD5(inByteArray));
 
 
-    simile_ScreenShot(getHAS(), calcMD5(inByteArray));
+
 
     model->select();
 }
@@ -94,17 +97,17 @@ QString MainWindow::getHAS()
 {
 
     QList <QString> Hash;
-     QSqlQuery query;
-     query.exec("SELECT id, Name , Pic, HashValue FROM ScreenTable ");
+    QSqlQuery query;
+     query.exec("SELECT id, Name , Pic, Simile, HashValue FROM ScreenTable ");
      int i = 0;
      while (query.next())
      {
-        Hash.append(query.value(3).toString());
-        qDebug() << Hash[i];
+        Hash.append(query.value(4).toString());
+        //qDebug() << Hash[i];
         ++i;
      }
-     QString hash = Hash[i-2];
-     return hash;
+
+     return  Hash[i-2];
 }
 
 
@@ -143,6 +146,6 @@ int MainWindow::simile_ScreenShot(QString tableHAS1, QString tableHAS2)
             dist_counter += 1;
        }
    }
-   qDebug() <<100 - dist_counter;
-    return dist_counter;
+  // qDebug() <<100 - dist_counter;
+    return 100 - dist_counter;
 }

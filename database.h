@@ -18,6 +18,7 @@
 #define TABLE                   "ScreenTable"
 #define TABLE_NAME              "Name"
 #define TABLE_PIC               "Pic"
+#define TABLE_SIMILE            "Simile"
 #define TABLE_HAS               "HashValue"
 
 
@@ -44,7 +45,7 @@ private:
 
 public slots:
     bool insertIntoTable(const QVariantList &data);
-    bool insertIntoTable(const QString &name, const QByteArray &pic, const QString &has);
+    bool insertIntoTable(const QString &name, const QByteArray &pic, const int &simile, const QString &has);
 };
 
 #endif // DATABASE_H

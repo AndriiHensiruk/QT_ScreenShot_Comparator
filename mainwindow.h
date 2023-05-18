@@ -29,7 +29,9 @@ private slots:
     QString calcMD5(const QByteArray inByteArray);
 
     int simile_ScreenShot(QString tableHAS1, QString tableHAS2);
+
     QString getHAS();
+
 private:
     Ui::MainWindow *ui;
 

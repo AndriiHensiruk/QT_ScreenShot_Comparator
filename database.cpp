@@ -64,6 +64,7 @@ bool DataBase::createTable()
                     "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     TABLE_NAME     " VARCHAR(255)    NOT NULL,"
                     TABLE_PIC      " BLOB            NOT NULL,"
+                    TABLE_SIMILE   " INTEGER                 ,"
                     TABLE_HAS      " VARCHAR(255)    NOT NULL"
                     " )"
                     )){
@@ -83,11 +84,12 @@ bool DataBase::insertIntoTable(const QVariantList &data)
     QSqlQuery query;
 
     query.prepare("INSERT INTO " TABLE " ( " TABLE_NAME ", "
-                  TABLE_PIC ", " TABLE_HAS " ) "
-                  "VALUES (:Name, :Pic, :HashValue)");
+                  TABLE_PIC ", " TABLE_SIMILE ", " TABLE_HAS " ) "
+                  "VALUES (:Name, :Pic, :Simile, :HashValue)");
     query.bindValue(":Name",              data[0].toString());
     query.bindValue(":Pic",               data[1].toByteArray());
-    query.bindValue(":HashValue",         data[2].toString());
+    query.bindValue(":Simile",            data[2].toInt());
+    query.bindValue(":HashValue",         data[3].toString());
 
 
     if(!query.exec()){
@@ -101,11 +103,12 @@ bool DataBase::insertIntoTable(const QVariantList &data)
 }
 
 
-bool DataBase::insertIntoTable(const QString &name, const QByteArray &pic, const QString &has)
+bool DataBase::insertIntoTable(const QString &name, const QByteArray &pic, const int &simile, const QString &has)
 {
     QVariantList data;
     data.append(name);
     data.append(pic);
+    data.append(simile);
     data.append(has);
 
 

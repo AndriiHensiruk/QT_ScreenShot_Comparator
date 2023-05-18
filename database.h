@@ -12,6 +12,7 @@
 #include <QSqlDriver>
 #include <QCryptographicHash>
 
+/* Directives for table names, table fields, and database fields */
 #define DATABASE_HOSTNAME   "ScreenDataBase"
 #define DATABASE_NAME       "Screen.db"
 
@@ -30,6 +31,10 @@ public:
     explicit DataBase(QObject *parent = 0);
     ~DataBase();
 
+    /* Methods for direct work with the class
+     * Connect to a database and insert records into a table
+     * */
+
     void connectToDataBase();
 
 private:
@@ -37,6 +42,9 @@ private:
     QSqlDatabase    db;
 
 private:
+
+    /* Internal methods for working with the database
+     * */
 
     bool openDataBase();
     bool restoreDataBase();

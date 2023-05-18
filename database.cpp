@@ -10,9 +10,13 @@ DataBase::~DataBase()
 
 }
 
-
+/* Methods for connecting to the database
+ * */
 void DataBase::connectToDataBase()
 {
+    /* Before connecting to the database, we check for its existence.
+     * Depending on the result, we open the database or restore it
+     * */
 
     if(!QFile("C:/Qt/project/ScreenShotProject/database" DATABASE_NAME).exists()){
         this->restoreDataBase();
@@ -29,7 +33,7 @@ bool DataBase::restoreDataBase()
 
         return (this->createTable()) ? true : false;
     } else {
-        qDebug() << "Не удалось восстановить базу данных";
+        qDebug() << "Failed to restore database";
         return false;
     }
     return false;
@@ -77,6 +81,8 @@ bool DataBase::createTable()
     return false;
 }
 
+/* Method for inserting a record into the database
+ * */
 
 bool DataBase::insertIntoTable(const QVariantList &data)
 {

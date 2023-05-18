@@ -27,6 +27,8 @@ MainWindow::MainWindow(QWidget *parent) :
     timer = new QTimer();
 }
 
+/* Method for initializing the data view mode
+ * */
 MainWindow::~MainWindow()
 {
     delete ui;
@@ -66,6 +68,9 @@ void MainWindow::createUI()
     model->select();
 }
 
+/* Take a screenshot of the screen and save it to a QByteArray object,
+     * for this ...
+     * */
 void MainWindow::screenShot()
 {
     QScreen *screen = QApplication::primaryScreen();
@@ -100,7 +105,8 @@ void MainWindow::slotCurrentPic(QModelIndex index)
 
     outPixmap.loadFromData(model->data(model->index(index.row(), 2)).toByteArray());
 
-    ui->picLabel->setPixmap(outPixmap.scaled(600,300));
+    ui->picLabel->setPixmap(outPixmap.scaled(400, 300, Qt::KeepAspectRatio));
+
 }
 
 QString MainWindow::getHAS()

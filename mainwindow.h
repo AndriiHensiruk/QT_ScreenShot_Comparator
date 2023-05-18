@@ -7,6 +7,7 @@
 #include <QBuffer>
 #include <QTimer>
 #include <QPushButton>
+#include <QPixmap>
 
 #include "database.h"
 
@@ -28,6 +29,7 @@ private slots:
 
     void on_stopButton_clicked();
 
+    // Slot for getting image from database
     void slotCurrentPic(QModelIndex index);
 
     QString calcMD5(const QByteArray inByteArray);
@@ -36,6 +38,7 @@ private slots:
 
     QString getHAS();
 
+    // Slot for writing a screenshot to the database
     void screenShot();
 
 private:

@@ -40,7 +40,7 @@ void MainWindow::setupModel(const QString &tableName, const QStringList &headers
 
     model = new QSqlTableModel(this);
     model->setTable(tableName);
-
+    model->sort(1, Qt::DescendingOrder);
 
     for(int i = 0, j = 0; i < model->columnCount(); i++, j++){
         model->setHeaderData(i,Qt::Horizontal,headers[j]);
@@ -154,7 +154,7 @@ int MainWindow::simile_ScreenShot(QString tableHAS1, QString tableHAS2)
     {
         qDebug() << "Не удалось восстановить данных";
    }
-
+    else
     for (int i = 0; i < tableHAS1.length(); i++ )
     {
        if (tableHAS1.at(i) != tableHAS2.at(i))

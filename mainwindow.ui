@@ -14,17 +14,17 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="screenButton">
+   <widget class="QPushButton" name="startButton">
     <property name="geometry">
      <rect>
       <x>40</x>
       <y>20</y>
-      <width>151</width>
-      <height>24</height>
+      <width>191</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>ScreenShot</string>
+     <string>StartScreenShot</string>
     </property>
    </widget>
    <widget class="QTableView" name="tableView">
@@ -54,6 +54,19 @@
     </property>
     <property name="text">
      <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="stopButton">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>20</y>
+      <width>191</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>StopSreenShot</string>
     </property>
    </widget>
   </widget>

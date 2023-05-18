@@ -23,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent) :
                      );
 
     this->createUI();
+
+    timer = new QTimer();
 }
 
 MainWindow::~MainWindow()
@@ -64,7 +66,7 @@ void MainWindow::createUI()
     model->select();
 }
 
-void MainWindow::on_screenButton_clicked()
+void MainWindow::screenShot()
 {
     QScreen *screen = QApplication::primaryScreen();
     QPixmap inPixmap = screen->grabWindow( 0 );
@@ -76,12 +78,20 @@ void MainWindow::on_screenButton_clicked()
     int simile = simile_ScreenShot(getHAS(), calcMD5(inByteArray));
 
     db->insertIntoTable(QDateTime::currentDateTime().toString("dd.MM.yyyy_hh:mm:ss.png"), inByteArray,
-                       simile, calcMD5(inByteArray));
-
-
-
+                        simile, calcMD5(inByteArray));
 
     model->select();
+}
+
+void MainWindow::on_stopButton_clicked()
+{
+    this->timer->stop();
+}
+
+void MainWindow::on_startButton_clicked()
+{
+    connect(timer, SIGNAL(timeout()), this, SLOT(screenShot()));
+    timer->start(1000);
 }
 
 void MainWindow::slotCurrentPic(QModelIndex index)

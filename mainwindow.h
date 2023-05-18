@@ -5,6 +5,8 @@
 #include <QSqlTableModel>
 #include <QModelIndex>
 #include <QBuffer>
+#include <QTimer>
+#include <QPushButton>
 
 #include "database.h"
 
@@ -22,7 +24,9 @@ public:
 
 private slots:
 
-    void on_screenButton_clicked();
+    void on_startButton_clicked();
+
+    void on_stopButton_clicked();
 
     void slotCurrentPic(QModelIndex index);
 
@@ -31,6 +35,8 @@ private slots:
     int simile_ScreenShot(QString tableHAS1, QString tableHAS2);
 
     QString getHAS();
+
+    void screenShot();
 
 private:
     Ui::MainWindow *ui;
@@ -42,6 +48,11 @@ private:
 
     void setupModel(const QString &tableName, const QStringList &headers);
     void createUI();
+
+
+private:
+
+    QTimer *timer;
 
 };
 
